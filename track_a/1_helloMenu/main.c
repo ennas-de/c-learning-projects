@@ -4,10 +4,11 @@
 int loadMenu(void);
 float buyData(void);
 float buyAirtime(void);
+float getUserPrice();
 
 void main() {
-    float airtimeBalance = 0;
-    float dataBalance = 0;
+    float airtimeBalance = 0.00F;
+    float dataBalance = 0.00F;
 
     int optionInput;
     bool continuePrograme = true;
@@ -22,24 +23,25 @@ void main() {
 
         switch (optionInput) {
             case 1:
-                const float newDataAMount = buyData();
+                float newDataAMount = buyData();
                 dataBalance += newDataAMount;
 
                 printf("\n\nCongratulations! \nYou have successfully bought %0.2fGB worth of data", newDataAMount);
                 printf("\nYour current data balance is: %0.2fGB\n", dataBalance);
                 break;
             case 2:
-                const float newAirtimeAMount = buyAirtime();
-                airtimeBalance += newAirtimeAMount;
+                float newAirtimeAmount = buyAirtime();
+                printf("newAirtimeAmount (%.2f) vs airtimeBalance (%.2f)", newAirtimeAmount, airtimeBalance);
+                airtimeBalance += newAirtimeAmount;
 
-                printf("\n\nCongratulations! \nYou have successfully bought #%.2f naira airtime", newAirtimeAMount);
+                printf("\n\nCongratulations! \nYou have successfully bought #%.2f naira airtime", newAirtimeAmount);
                 printf("\nYour current airtime balance is: #%.2f naira\n", airtimeBalance);
                 break;
             case 3:
                 printf("\nYour current data balance is: %.2fGB\n", dataBalance);
                 break;
             case 4:
-                printf("\nYour current airtime balance is: #%.2f naira\n", newAirtimeAMount);
+                printf("\nYour current airtime balance is: #%.2f naira\n", airtimeBalance);
                 break;
             case 5:
                 printf("\nGoodbye...\n");
@@ -63,11 +65,14 @@ void main() {
                 optionInput = loadMenu();
             } else if (choice == 2) {
                 optionInput = 5;
+            } else {
+                printf("Wrong choice. Loading Menu...");
+                loadMenu();
             }
         }
     }
 
-    printf("\nQuiting...");
+    // printf("\nQuiting...\n\n");
 }
 
 int loadMenu(void) {
@@ -87,7 +92,7 @@ int loadMenu(void) {
 }
 
 float buyData(void) {
-    const float DATA_PRICE_PER_GB = 100;
+    const float DATA_PRICE_PER_GB = 100.00F;
     const float ONE_GB = 1.00F;
     float userPrice;
     float dataAmount;
@@ -95,8 +100,7 @@ float buyData(void) {
     printf("\n=================Buy Data:=================\n");
     printf("1GB data costs #%.2f\n", DATA_PRICE_PER_GB);
 
-    printf("\nHow much do you want to buy with?: ");
-    scanf("%f", &userPrice);
+    userPrice = getUserPrice();
 
     printf("\n You are buying #%.2f Naira worth of data", userPrice);
 
@@ -106,19 +110,32 @@ float buyData(void) {
 }
 
 float buyAirtime (void) {
-    const float AIRTIME_PRICE_PER_1 = 1;
+    const float AIRTIME_PRICE_PER_1 = 1.00F;
     float userPrice;
     float airtimeAmount;
 
     printf("\n=================Buy Airtime:=================\n");
     printf("1 Unit of airtime costs #%.2f\n", AIRTIME_PRICE_PER_1);
 
-    printf("\nHow much do you want to buy with?: ");
-    scanf("%f", &userPrice);
+    userPrice = getUserPrice();
 
     printf("\n You are buying #%.2f Naira worth of airtime", userPrice);
 
     airtimeAmount = AIRTIME_PRICE_PER_1 * userPrice;
-
+    
+    printf("AirtimeAmount bought: %f", airtimeAmount);
     return airtimeAmount;
+}
+
+float getUserPrice() {
+    float input;
+
+    printf("\nHow much money do you want to buy with?: ");
+    scanf("%f", &input);
+    while (input < 1) {
+        printf("Invalid amount specified. Amount must be greater than 0!\n > ");
+        scanf("%f", &input);
+    }
+
+    return input;
 }
