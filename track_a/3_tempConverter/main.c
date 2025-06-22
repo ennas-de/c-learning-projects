@@ -23,7 +23,7 @@ int main() {
     sleep(2);
 
     printf("Available Conversion Units: Celcius (C), Kelvin (K), and Fahrenheit (F).\n");
-    printf("Enter the Temperature details like: InitialTemperature finalUnit; e.g. '36C K'\n> ");
+    printf("Enter the Temperature details like: InitialTemperature+InitialUnit finalUnit; e.g. '36C K'\n> ");
     scanf("%f %c %c", &initialTemp, &initialUnit, &finalUnit); 
 
     // printf("Inputed values: \nInitial Temperate: %.2f%c \nFinal Unit: %c\n", initialTemp, initialUnit, finalUnit);
